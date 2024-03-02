@@ -18,8 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
     
           data.hits.forEach(function(image) {
             var imgElement = document.createElement('img');
-            imgElement.src = image.previewURL;
-            resultsDiv.appendChild(imgElement);
+            imgElement.src = image.webformatURL; // Utiliza la URL de la imagen de tamaño completo
+            imgElement.classList.add('clickable'); // Agregar clase clickable para identificar las imágenes clicables
+            resultsDiv.appendChild(imgElement); // Agregar la imagen al contenedor de resultados
+          });
+  
+          // Agregar el evento de clic a todas las imágenes clicables
+          var clickableImages = document.querySelectorAll('.clickable');
+          clickableImages.forEach(function(img) {
+            img.addEventListener('click', function() {
+              var modal = document.getElementById('imageModal');
+              var modalImg = document.getElementById('expandedImg');
+              modal.style.display = 'block';
+              modalImg.src = this.src;
+            });
+          });
+  
+          // Agregar el evento de clic para cerrar el modal
+          var closeButton = document.getElementsByClassName('close')[0];
+          closeButton.addEventListener('click', function() {
+            var modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
           });
         })
         .catch(error => {
